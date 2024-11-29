@@ -5,7 +5,7 @@ import psycopg2.extras
 
 @pytest.fixture(scope="session")
 def db_connection():
-    conn = psycopg2.connect("postgresql://postgres:t@localhost:5432/test_db")
+    conn = psycopg2.connect("postgresql://postgres:@localhost:5432/test_db")
     conn.set_isolation_level(psycopg2.extensions.ISOLATION_LEVEL_READ_COMMITTED)
     yield conn
     conn.close()
@@ -18,7 +18,6 @@ def setup_database(db_connection):
             sql_script = f.read()
         cur.execute(sql_script)
         db_connection.commit()
-
 
 @pytest.fixture(scope="function")
 def db_transaction(db_connection):
